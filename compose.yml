@@ -1,0 +1,51 @@
+name: sigma-case
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - server
+      - database
+    ports:
+      - "80:3000"
+      - "3000:3000"
+    environment:
+      API_URL: http://server:8001
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    secrets:
+      - db_password
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_USER: sigmacase
+      POSTGRES_DB: sigmacase
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      TOKEN_EXPIRE_TIME: 24
+
+  database:
+    image: postgres:18
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/postgresql/18/data:rw
+    secrets:
+      - db_password
+    environment:
+      POSTGRES_USER: sigmacase
+      POSTGRES_DB: sigmacase
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password 
+
+secrets:
+  db_password:
+    environment: DB_PASSWORD
+
+volumes:
+  db_data:

@@ -1,0 +1,1 @@
+echo "DB_PASSWORD=$(openssl rand -base64 32)" > .env
