@@ -1,16 +1,13 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import status
-from pwdlib import PasswordHash
 from pydantic import BaseModel
 from server.exceptions import invalid_credentials_exception
 from server.myjwt import jwt_encode
 from server.repository import get_user_repository, UserRepository
-from server.models.users import User
+from server.repository.users import CreateUserPayload
 
-password_hash = PasswordHash.recommended()
 router = APIRouter()
 
 @router.post("/authenticate")
@@ -18,13 +15,12 @@ async def authenticate(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     user_repository: Annotated[UserRepository, Depends(get_user_repository)]
 ):
+    user = await user_repository.find_by_username_and_password(
+        form_data.username,
+        form_data.password
+    )
 
-    username = form_data.username
-    user = await user_repository.find_by_username(username)
     if user is None:
-        raise invalid_credentials_exception
-    
-    if not password_hash.verify(form_data.password, user.passhash):
         raise invalid_credentials_exception
     
     return jwt_encode(str(user.uuid))
@@ -38,9 +34,7 @@ async def register(
     user_repository: Annotated[UserRepository, Depends(get_user_repository)],
     new_user_request: NewUserRequest,
 ):
-    username = new_user_request.username
-    passhash = password_hash.hash(new_user_request.password)
-    await user_repository.create_user(User(
-        username=username, 
-        passhash=passhash
+    await user_repository.create_user(CreateUserPayload(
+        username=new_user_request.username, 
+        password=new_user_request.password,
     ))

@@ -8,7 +8,7 @@ from server.models.product import Product, ProductCreatePayload, ProductUpdatePa
 
 class ProductRepository:
     def __init__(self, engine: AsyncEngine) -> None:
-        self.async_session = async_sessionmaker(engine)
+        self.async_session = async_sessionmaker(engine, expire_on_commit=False)
 
     async def list(self) -> List[Product]:
         stmt = select(Product)
@@ -35,6 +35,8 @@ class ProductRepository:
             async with session.begin():
                 session.add(new_product)
 
+            return new_product
+
 
     async def update_by_id(self, id: uuid.UUID, update_payload: ProductUpdatePayload):
         select_stmt = (
@@ -43,15 +45,16 @@ class ProductRepository:
         )
 
         async with self.async_session() as session:
-            target = await session.scalar(select_stmt)
-            
-            if target is None:
-                raise unknown_product_exception
-
             async with session.begin():
+                target = await session.scalar(select_stmt)
+            
+                if target is None:
+                    raise unknown_product_exception
+                
                 for k, v in update_payload.model_dump().items():
                     if v is not None:
                         setattr(target, k , v)
+
 
     async def delete_by_id(self, id: uuid.UUID):
         delete_stmt = (
