@@ -1,11 +1,13 @@
 
 
 from fastapi import FastAPI, Request
-from sqlalchemy.ext.asyncio import AsyncEngine
+from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 from server.repository.users import UserRepository
+from server.repository.products import ProductRepository
 
-def attach_repositories_to_app(app: FastAPI, engine: AsyncEngine):
-    app.state.user_repository = UserRepository(engine)
 
 def get_user_repository(request: Request) -> UserRepository:
-    return request.app.state.user_repository
+    return UserRepository(request.app.state.db_engine)
+
+def get_product_repository(request: Request) -> ProductRepository:
+    return ProductRepository(request.app.state.db_engine)

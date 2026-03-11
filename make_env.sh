@@ -1,1 +1,7 @@
-echo "DB_PASSWORD=$(openssl rand -base64 32)" > .env
+cat > .env <<EOF
+POSTGRES_PASSWORD=$(openssl rand -hex 32)
+POSTGRES_HOST=172.17.0.1
+POSTGRES_USER=sigmacase
+POSTGRES_DB=sigmacase
+TOKEN_EXPIRE_TIME=24
+EOF

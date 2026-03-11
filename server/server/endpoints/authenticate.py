@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from server.exceptions import invalid_credentials_exception
 from server.myjwt import jwt_encode
 from server.repository import get_user_repository, UserRepository
+from server.models.users import User
 
 password_hash = PasswordHash.recommended()
 router = APIRouter()
@@ -39,4 +40,7 @@ async def register(
 ):
     username = new_user_request.username
     passhash = password_hash.hash(new_user_request.password)
-    await user_repository.create_user(username, passhash)
+    await user_repository.create_user(User(
+        username=username, 
+        passhash=passhash
+    ))

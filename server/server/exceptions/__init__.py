@@ -6,3 +6,8 @@ invalid_credentials_exception = HTTPException(
     detail="Invalid credentials",
     headers={"WWW-Authenticate": "Bearer"}
 )
+
+unknown_product_exception = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="Unknown product"
+)

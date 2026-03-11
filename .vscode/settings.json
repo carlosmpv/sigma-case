@@ -2,5 +2,12 @@
     "python-envs.workspaceSearchPaths": [
         "./**/.venv",
         "../**/.venv"
-    ]
+    ],
+    "python.analysis.typeCheckingMode": "standard",
+    "python.testing.pytestArgs": [
+        "server"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.terminal.useEnvFile": true
 }

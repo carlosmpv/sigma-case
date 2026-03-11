@@ -20,6 +20,8 @@ services:
       context: ./server
       dockerfile: Dockerfile
     restart: unless-stopped
+    depends_on:
+      - database
     ports:
       - 8001:8001
     secrets:
@@ -32,10 +34,12 @@ services:
       TOKEN_EXPIRE_TIME: 24
 
   database:
-    image: postgres:18
+    image: postgis/postgis:18-3.6
     restart: unless-stopped
     volumes:
       - db_data:/var/lib/postgresql/18/data:rw
+    ports:
+      - 5432:5432
     secrets:
       - db_password
     environment:
@@ -45,7 +49,7 @@ services:
 
 secrets:
   db_password:
-    environment: DB_PASSWORD
+    environment: POSTGRES_PASSWORD
 
 volumes:
   db_data:
