@@ -6,9 +6,11 @@ import uuid
 from pwdlib import PasswordHash
 from pydantic import BaseModel
 from sqlalchemy import Engine, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncEngine
 from server.models.users import User
+from server.exceptions import username_already_in_use
 
 password_hash = PasswordHash.recommended()
 
@@ -48,10 +50,14 @@ class UserRepository:
             username=payload.username,
             passhash=password_hash.hash(payload.password),
         )
-        
-        async with self.async_session() as session:
-            async with session.begin():
-                session.add(new_user)
+
+        try:    
+            async with self.async_session() as session:
+                async with session.begin():
+                    session.add(new_user)
+
+        except IntegrityError:
+            raise username_already_in_use
 
 class CreateUserPayload(BaseModel):
     username: str

@@ -6,7 +6,7 @@ import uuid
 from fastapi import Depends
 from fastapi.routing import APIRouter
 
-from server.models.product import Product, ProductCreatePayload, ProductUpdatePayload
+from server.models.product import ProductCreatePayload, ProductUpdatePayload, ProductResponse
 from server.repository import get_product_repository
 from server.repository.products import ProductRepository
 
@@ -19,19 +19,20 @@ async def create_product(
     product_repository: ProductRepositoryDependency,
     product_create_payload: ProductCreatePayload
 ):
-    await product_repository.create(product_create_payload)
+    return await product_repository.create(product_create_payload)
+    
 
 @router.get("/products")
 async def list_products(
     product_repository: ProductRepositoryDependency
-) -> List[Product]:
+) -> List[ProductResponse]:
     return await product_repository.list()
 
 @router.get("/products/{product_id}")
 async def get_product(
     product_repository: ProductRepositoryDependency,
     product_id: str,
-) -> Optional[Product]:
+) -> Optional[ProductResponse]:
     return await product_repository.by_id(uuid.UUID(product_id))
 
 @router.put("/products/{product_id}")

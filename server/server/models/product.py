@@ -41,6 +41,16 @@ class Product(Base):
         nullable=False,
     )
 
+class ProductResponse(BaseModel):
+    uuid: uuid.UUID
+    name: str
+    price_per_quantity: float
+    quantity: float
+    unit_of_measure: str
+
+    class Config:
+        from_attributes = True
+
 class ProductUpdatePayload(BaseModel):
     name: Optional[str] = None
     price_per_quantity: Optional[float] = None

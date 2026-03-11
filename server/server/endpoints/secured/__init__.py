@@ -7,7 +7,8 @@ from fastapi import Depends, HTTPException
 from fastapi import status
 from fastapi.security import OAuth2PasswordBearer
 from server.myjwt import jwt_decode
-
+from .products import router as products_router
+from .map import router as map_router
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/authenticate")
 
@@ -30,3 +31,7 @@ secured_router = APIRouter(
         Depends(get_current_userid)
     ],
 )
+
+
+secured_router.include_router(products_router)
+secured_router.include_router(map_router)

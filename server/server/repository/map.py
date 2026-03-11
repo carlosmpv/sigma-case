@@ -4,7 +4,7 @@ import uuid
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncEngine
 from sqlalchemy import select, func
-from geoalchemy2.functions import ST_GeomFromGeoJSON
+from geoalchemy2.functions import ST_GeomFromGeoJSON, ST_AsGeoJSON
 
 from server.models.geo_feature import GeoFeature
 
@@ -35,11 +35,14 @@ class MapRepository:
                     geo_feature = GeoFeature(**filtered)
                     session.add(geo_feature)
 
-        
-        
     async def is_populated(self):
         stmt = select(func.count()).select_from(GeoFeature)
         async with self.async_session() as session:
             feature_count = await session.scalar(stmt)
             return (feature_count is not None and feature_count > 0)
         
+    async def get_all_features(self):
+        stmt = select(ST_AsGeoJSON(GeoFeature.geometry)).select_from(GeoFeature)
+        async with self.async_session() as session:
+            features = await session.scalars(stmt)
+            return list(features)

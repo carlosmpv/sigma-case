@@ -3,6 +3,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.gzip import GZipMiddleware
 
 from server.database import create_engine
 from server.endpoints import authentication_router
@@ -21,5 +22,11 @@ async def lifespan(app: FastAPI):
     await app.state.db_engine.dispose()
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    GZipMiddleware,
+    minimum_size=1024,
+    compresslevel=6,
+)
+
 app.include_router(authentication_router)
 app.include_router(secured_router)
