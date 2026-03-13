@@ -4,7 +4,13 @@ Um projeto avaliativo para candidatura na SIGMA.
 
 ## Como executar?
 
-Com o diretório de trabalho na raíz deste repositório basta executar: 
+Primeiramente é necessário criar as variávies de ambiente para que o PostgreSQL tenha uma senha definida
+
+```bash
+chmod +x ./make_env.sh && ./make_env.sh
+```
+
+Só então executar
 
 ```bash
 docker compose up --build
