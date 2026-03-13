@@ -21,6 +21,7 @@ export default function SigninForm() {
   return <>
     <div id="signin" className="bg-gray-50 p-8 rounded-xl">
       <h2 className="text-3xl font-bold mb-6">Entrar</h2>
+      <p className="text-red-700 text-sm font-bold mb-6">{state.error}</p>
       <form className="space-y-6" id="signin-form" action={formAction}>
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">

@@ -194,6 +194,7 @@ export default function Products(
             type="number"
             id="product-price"
             name="product-price"
+            step="0.01"
             placeholder="0,00"
           />
         </div>
@@ -210,6 +211,7 @@ export default function Products(
             type="number"
             id="product-quantity"
             name="product-quantity"
+            step="0.01"
             placeholder="0,00"
           />
         </div>
