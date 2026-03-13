@@ -36,7 +36,7 @@ class Product(Base):
 
     unit_of_measure: Mapped[str] = mapped_column(
         String(),
-        default='UN',
+        default='un',
         server_default=text("'un'"),
         nullable=False,
     )
