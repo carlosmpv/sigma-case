@@ -35,9 +35,14 @@ As variáveis de ambiente configuradas aqui são pensadas para o devcontainer co
 ### Depurando o backend
 
 Para o backend em Python + FastAPI o vscode está configurado para executar o depurador ao pressionar `F5`. 
+Certifique-se de que a extensão **Python** está instalada no devcontainer.
 
 É necessário no entanto que o serviço **database** esteja executando no momento: `docker compose up database`, ou clickar no play que aparece sobre os serviços listados em `compose.yml` caso a extensão **Container Tools** esteja instalada.
 
 ### Depurando o frontend
 
-Não foi configurado o depurador para o nextjs no momento, porém para executar em modo de desenvolvimento, basta executar os serviços **server** e **database**
+Não foi configurado o depurador para o nextjs no momento, porém para executar em modo de desenvolvimento, basta executar os serviços **server** e **database**, acessar a pasta `client` e executar `bun run dev`
+
+## Documentação da API
+
+Toda a API será documentada e pode ser testada em `http://localhost:8000/docs`, acesível ao executar o sistema com `docker compose up`
