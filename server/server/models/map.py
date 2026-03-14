@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 import uuid
 from pydantic import BaseModel
-from sqlalchemy import UUID, String, func
+from sqlalchemy import UUID, Float, String, func
 
 from .base import Base
 from sqlalchemy.orm import Mapped, mapped_column
@@ -22,6 +22,16 @@ class GeoFeature(Base):
         nullable=False
     )
 
+    rgb: Mapped[str] = mapped_column(
+        String(),
+        default='#000000'
+    )
+
+    area_ha: Mapped[float] = mapped_column(
+        Float(),
+        default=0
+    )
+
     geometry: Mapped[GeoType] = mapped_column(
         Geometry("MULTIPOLYGON")
     )
@@ -34,3 +44,8 @@ class Feature(BaseModel):
 class FeatureCollection(BaseModel):
     type: str = "FeatureCollection"
     features: List[Feature]
+
+class SoilUsage(BaseModel):
+    desc_uso_solo: str
+    rgb: str
+    area: float

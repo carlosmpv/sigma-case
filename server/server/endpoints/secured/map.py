@@ -14,3 +14,10 @@ async def get_map_features(
     map_repository: MapRepositoryDependency
 ):
     return await map_repository.get_all_features()
+
+
+@router.get("/map/soil_usage")
+async def get_soil_usage(
+    map_repository: MapRepositoryDependency
+):
+    return await map_repository.get_soil_usage()

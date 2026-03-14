@@ -43,9 +43,7 @@ export default function MapComponent(initialState: MapState) {
       zoom: 13
     })
 
-    map.current.addControl(new NavigationControl(), 'top-right');
-    map.current.on('load', async () => {
-      console.log(initialState.polygons)
+    map.current.on('load', () => {
       map.current?.addSource('internal-source', {
         type: 'geojson',
         data: initialState.polygons!
@@ -56,8 +54,8 @@ export default function MapComponent(initialState: MapState) {
         type: 'fill',
         source: 'internal-source',
         paint: {
-          'fill-color': '#ff0000',
-          'fill-opacity': 0.4
+          'fill-color': ['get', 'rgb'],
+          'fill-opacity': 0.8
         }
       })
     })

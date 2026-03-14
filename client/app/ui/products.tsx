@@ -151,114 +151,117 @@ export default function Products(
 
 
 
-  return <>
-    <h1 className="text-xl mb-4">Produtos em estoque</h1>
-    <details
-      className="border border-gray-300 rounded-sm"
-      open={(state?.products || []).length == 0}
-    >
-      <summary
-        className="list-none cursor-pointer  p-2"
+  return <details open>
+    <summary className="text-xl cursor-pointer bg-gray-200 p-2">Produtos em estoque</summary>
+    <div className="px-4 mt-6">
+      <details
+        className="border border-gray-300 rounded-sm"
+        open={(state?.products || []).length == 0}
       >
-        <span className="mdi mdi-plus"></span> Cadastrar produto
-      </summary>
-
-      <form
-        action={formAction}
-        className="flex flex-wrap space-y-2 p-2"
-      >
-        <p>{state?.error}</p>
-
-        <div className="p-1 w-full">
-          <label
-            htmlFor="product-name"
-            className="block text-sm font-medium text-gray-700 mb-1">
-            Nome do produto
-          </label>
-          <input
-            className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
-            type="text"
-            id="product-name"
-            name="product-name"
-            placeholder="Fertilizante"
-          />
-        </div>
-
-        <div className="p-1 w-full md:w-1/2">
-          <label
-            htmlFor="product-price"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Preço por {unitOfMeasure}
-          </label>
-          <input
-            className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
-            type="number"
-            id="product-price"
-            name="product-price"
-            step="0.01"
-            placeholder="0,00"
-          />
-        </div>
-
-        <div className="p-1 w-full md:w-1/2">
-          <label
-            htmlFor="product-quantity"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Quantidade
-          </label>
-          <input
-            className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
-            type="number"
-            id="product-quantity"
-            name="product-quantity"
-            step="0.01"
-            placeholder="0,00"
-          />
-        </div>
-
-        <div className="p-1 w-full">
-          <label
-            htmlFor="product-unit"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Unidade de medida
-          </label>
-          <input
-            className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
-            type="text"
-            id="product-unit"
-            name="product-unit"
-            value={unitOfMeasure}
-            onChange={handleUnitChange}
-          />
-        </div>
-
-        <button
-          className="bg-gray-100 p-2 m-1 w-full cursor-pointer hover:bg-gray-200"
-          type="submit"
+        <summary
+          className="list-none cursor-pointer  p-2"
         >
-          Cadastrar
-        </button>
-      </form>
-    </details>
+          <span className="mdi mdi-plus"></span> 
+          Cadastrar produto
+        </summary>
 
-    <div>
-      {state?.products?.length === 0 ? (
-        <p>Nenhum produto cadastrado</p>
-      ) : (
-        <ul className="py-4">
-          {state?.products?.map((product: Product) => (
-            <li
-              className="border-b border-gray-300 flex"
-              key={product.uuid}
+        <form
+          action={formAction}
+          className="flex flex-wrap space-y-2 p-2"
+        >
+          <p>{state?.error}</p>
+
+          <div className="p-1 w-full">
+            <label
+              htmlFor="product-name"
+              className="block text-sm font-medium text-gray-700 mb-1">
+              Nome do produto
+            </label>
+            <input
+              className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
+              type="text"
+              id="product-name"
+              name="product-name"
+              placeholder="Fertilizante"
+            />
+          </div>
+
+          <div className="p-1 w-full md:w-1/2">
+            <label
+              htmlFor="product-price"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
-              <ProductsItem {...product} />
-            </li>
-          ))}
-        </ul>
-      )}
+              Preço por {unitOfMeasure}
+            </label>
+            <input
+              className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
+              type="number"
+              id="product-price"
+              name="product-price"
+              step="0.01"
+              placeholder="0,00"
+            />
+          </div>
+
+          <div className="p-1 w-full md:w-1/2">
+            <label
+              htmlFor="product-quantity"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Quantidade
+            </label>
+            <input
+              className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
+              type="number"
+              id="product-quantity"
+              name="product-quantity"
+              step="0.01"
+              placeholder="0,00"
+            />
+          </div>
+
+          <div className="p-1 w-full">
+            <label
+              htmlFor="product-unit"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Unidade de medida
+            </label>
+            <input
+              className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
+              type="text"
+              id="product-unit"
+              name="product-unit"
+              value={unitOfMeasure}
+              onChange={handleUnitChange}
+            />
+          </div>
+
+          <button
+            className="bg-gray-100 p-2 m-1 w-full cursor-pointer hover:bg-gray-200"
+            type="submit"
+          >
+            Cadastrar
+          </button>
+        </form>
+      </details>
+
+      <div>
+        {state?.products?.length === 0 ? (
+          <p className="py-4 text-center">Nenhum produto cadastrado</p>
+        ) : (
+          <ul className="py-4">
+            {state?.products?.map((product: Product) => (
+              <li
+                className="border-b border-gray-300 flex"
+                key={product.uuid}
+              >
+                <ProductsItem {...product} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
-  </>
+  </details>
 }

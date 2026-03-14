@@ -4,9 +4,18 @@ import uuid
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncEngine
 from sqlalchemy import select, func
-from geoalchemy2.functions import ST_GeomFromGeoJSON, ST_AsGeoJSON
+from geoalchemy2.functions import ST_GeomFromGeoJSON, ST_AsGeoJSON, ST_Area, ST_Transform
 
-from server.models.map import Feature, FeatureCollection, GeoFeature
+from server.models.map import Feature, FeatureCollection, GeoFeature, SoilUsage
+import re
+
+def _rgb_to_hex(rgbstr: str) -> str:
+    result = re.findall(r'rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)', rgbstr)
+    if len(result) != 1:
+        return '#000000'
+    
+    (r, g, b) = (int(r) for r in result[0])
+    return '#%02x%02x%02x' % (r, g, b)
 
 class MapRepository:
     def __init__(self, engine: AsyncEngine) -> None:
@@ -26,7 +35,10 @@ class MapRepository:
                     properties: Dict[str, Any] = feature.pop("properties", {})
                     flattened = {**feature, **properties}
                     filtered = {
-                        k: v
+                        k: (
+                            _rgb_to_hex(v) if k == 'rgb'
+                            else v
+                        )
                         for k, v in flattened.items()
                         if k in table_columns
                     }
@@ -66,4 +78,30 @@ class MapRepository:
                 )
 
             return FeatureCollection(features=features)
-            
+        
+    async def get_soil_usage(self) -> List[SoilUsage]:
+        # A area nesta solução não batem com o que está registrado
+        # mas seria uma forma de se obter a area da geometria
+        # 
+        # stmt = select(
+        #     GeoFeature.desc_uso_solo,
+        #     GeoFeature.rgb,
+        #     func.sum(ST_Area(ST_Transform(GeoFeature.geometry, 5880)))
+        # ).group_by(GeoFeature.desc_uso_solo, GeoFeature.rgb)
+
+        stmt = select(
+            GeoFeature.desc_uso_solo,
+            GeoFeature.rgb,
+            GeoFeature.area_ha
+        )
+
+        async with self.async_session() as session:
+            return [
+                SoilUsage(
+                    desc_uso_solo=desc,
+                    rgb=rgb,
+                    area=area,
+                )
+                
+                for desc, rgb, area in await session.execute(stmt)
+            ]

@@ -66,7 +66,6 @@ export async function createProduct(prevState: any, payload: FormData) {
 
 export async function editProduct(prevState: any, payload: ProductUpdatePayload) {
   const token = await getAccessToken()!
-
   
   const response = await fetch(`${process.env.API_URL}/secured/products/${payload.uuid}`, {
     method: 'PUT',
@@ -84,4 +83,13 @@ export async function editProduct(prevState: any, payload: ProductUpdatePayload)
   return {...prevState, ...payload}
 }
 
-export async function deleteProduct(prevState: any) {}
+export async function deleteProduct(prevState: any, targetID: string) {
+  const token = await getAccessToken()!
+
+  const response = await fetch(`${process.env.API_URL}/secured/products/${targetID}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+}
