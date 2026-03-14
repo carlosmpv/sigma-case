@@ -112,5 +112,15 @@ export default function MapComponent(
     applySelection()
   }, [state.selectedSoil])
 
-  return <div ref={mapContainer} className="h-full" />
+  return <div className="h-full relative">
+    <div ref={mapContainer} className="h-full" />
+    {state.selectedSoil ? (
+      <div className="fixed top-0 right-0 bg-white p-4 rounded-bl-sm">
+        <span className="font-bold">{state.selectedSoil.desc_uso_solo} </span>
+        — 
+        <span className="text-gray-700"> {state.selectedSoil.area} Km²</span>
+      </div>
+    ) : <></>}
+  </div>
+
 }
