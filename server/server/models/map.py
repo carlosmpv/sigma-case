@@ -38,6 +38,7 @@ class GeoFeature(Base):
 
 class Feature(BaseModel):
     type: str = "Feature"
+    id: uuid.UUID
     properties: Dict[str, Any] = {}
     geometry: Any
 
@@ -46,6 +47,7 @@ class FeatureCollection(BaseModel):
     features: List[Feature]
 
 class SoilUsage(BaseModel):
+    id: uuid.UUID
     desc_uso_solo: str
     rgb: str
     area: float

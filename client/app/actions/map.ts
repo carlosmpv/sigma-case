@@ -3,6 +3,7 @@ import { getAccessToken } from "@/utils/token";
 import { redirect } from 'next/navigation';
 
 export type SoilUsage = {
+  id: string
   desc_uso_solo: string
   rgb: string
   area: number

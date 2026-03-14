@@ -72,6 +72,7 @@ class MapRepository:
 
                 features.append(
                     Feature(
+                        id=properties['uuid'],
                         properties=properties,
                         geometry=polygon
                     )
@@ -90,6 +91,7 @@ class MapRepository:
         # ).group_by(GeoFeature.desc_uso_solo, GeoFeature.rgb)
 
         stmt = select(
+            GeoFeature.uuid.label('id'),
             GeoFeature.desc_uso_solo,
             GeoFeature.rgb,
             GeoFeature.area_ha
@@ -98,10 +100,11 @@ class MapRepository:
         async with self.async_session() as session:
             return [
                 SoilUsage(
+                    id=id,
                     desc_uso_solo=desc,
                     rgb=rgb,
                     area=area,
                 )
                 
-                for desc, rgb, area in await session.execute(stmt)
+                for id, desc, rgb, area in await session.execute(stmt)
             ]
