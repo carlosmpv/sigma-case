@@ -1,4 +1,6 @@
+from typing import Any, Dict, List
 import uuid
+from pydantic import BaseModel
 from sqlalchemy import UUID, String, func
 
 from .base import Base
@@ -23,3 +25,12 @@ class GeoFeature(Base):
     geometry: Mapped[GeoType] = mapped_column(
         Geometry("MULTIPOLYGON")
     )
+
+class Feature(BaseModel):
+    type: str = "Feature"
+    properties: Dict[str, Any] = {}
+    geometry: Any
+
+class FeatureCollection(BaseModel):
+    type: str = "FeatureCollection"
+    features: List[Feature]

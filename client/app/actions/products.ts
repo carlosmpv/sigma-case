@@ -1,18 +1,7 @@
 'use server'
 
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { getAccessToken } from "@/utils/token";
 
-async function getAccessToken(): Promise<string | null> {
-  const cookieStore = await cookies()
-  const accessToken = await cookieStore.get('access_token')
-  if (!accessToken?.value) {
-    console.log('nao encontrado')
-    redirect('/')
-  }
-
-  return accessToken!.value
-}
 
 export type Product = {
   uuid: string

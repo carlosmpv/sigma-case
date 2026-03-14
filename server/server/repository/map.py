@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncEngine
 from sqlalchemy import select, func
 from geoalchemy2.functions import ST_GeomFromGeoJSON, ST_AsGeoJSON
 
-from server.models.geo_feature import GeoFeature
+from server.models.map import Feature, FeatureCollection, GeoFeature
 
 class MapRepository:
     def __init__(self, engine: AsyncEngine) -> None:
@@ -42,7 +42,28 @@ class MapRepository:
             return (feature_count is not None and feature_count > 0)
         
     async def get_all_features(self):
-        stmt = select(ST_AsGeoJSON(GeoFeature.geometry)).select_from(GeoFeature)
+        stmt = select().select_from(GeoFeature)
+        stmt = select(GeoFeature)
         async with self.async_session() as session:
-            features = await session.scalars(stmt)
-            return list(features)
+            
+            features = []
+            for result in await session.scalars(stmt):
+                polygon = json.loads(
+                    await session.scalar(ST_AsGeoJSON(GeoFeature.geometry))
+                )
+
+                properties = {
+                    col.name: getattr(result, col.name)
+                    for col in GeoFeature.__table__.columns
+                    if col.name != 'geometry'
+                }
+
+                features.append(
+                    Feature(
+                        properties=properties,
+                        geometry=polygon
+                    )
+                )
+
+            return FeatureCollection(features=features)
+            

@@ -3,7 +3,7 @@ import { ChangeEvent, useActionState, useState } from "react";
 import { createProduct, editProduct, Product } from "../actions/products";
 
 
-type ProductsState = { products: Product[], error?: string }
+
 const formataReais = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format
 
 function ProductsItem(product: Product) {
@@ -134,6 +134,8 @@ function ProductsItem(product: Product) {
   </>
 
 }
+
+type ProductsState = { products: Product[], error?: string }
 
 export default function Products(
   initialState: ProductsState
