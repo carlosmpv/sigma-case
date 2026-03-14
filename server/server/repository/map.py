@@ -42,18 +42,18 @@ class MapRepository:
             return (feature_count is not None and feature_count > 0)
         
     async def get_all_features(self):
-        stmt = select().select_from(GeoFeature)
-        stmt = select(GeoFeature)
+        stmt = select(
+            GeoFeature,
+            ST_AsGeoJSON(GeoFeature.geometry).label("geometry_geojson")
+        )
         async with self.async_session() as session:
             
             features = []
-            for result in await session.scalars(stmt):
-                polygon = json.loads(
-                    await session.scalar(ST_AsGeoJSON(GeoFeature.geometry))
-                )
+            for feature, geometry_geojson in await session.execute(stmt):
+                polygon = json.loads(geometry_geojson)
 
                 properties = {
-                    col.name: getattr(result, col.name)
+                    col.name: getattr(feature, col.name)
                     for col in GeoFeature.__table__.columns
                     if col.name != 'geometry'
                 }
