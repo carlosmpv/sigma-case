@@ -1,6 +1,6 @@
 'use client'
 import type { FeatureCollection } from 'geojson'
-import { Map, type GeoJSONSource } from 'maplibre-gl'
+import { Map, MapMouseEvent, Marker, type GeoJSONSource } from 'maplibre-gl'
 import { useEffect, useRef } from 'react'
 import type { SoilUsage } from '../actions/map'
 
@@ -13,6 +13,7 @@ export default function MapComponent(
   const mapContainer = useRef<HTMLDivElement>(null)
   const map = useRef<Map | null>(null)
   const previousSelectedId = useRef<string | number | null>(null)
+  const markers = useRef<Marker[]>([])
 
   const applySelection = () => {
     if (!map.current) return
@@ -40,7 +41,7 @@ export default function MapComponent(
     if (map.current) return
     if (!mapContainer.current) return
 
-    const instance = new Map({
+    const mapObj = new Map({
       container: mapContainer.current,
       style: {
         version: 8,
@@ -64,18 +65,18 @@ export default function MapComponent(
       zoom: 13
     })
 
-    map.current = instance
+    map.current = mapObj
 
-    instance.on('load', () => {
+    mapObj.on('load', () => {
       if (!state.polygons) return
 
-      instance.addSource('internal-source', {
+      mapObj.addSource('internal-source', {
         type: 'geojson',
         data: state.polygons,
         promoteId: 'uuid'
       })
 
-      instance.addLayer({
+      mapObj.addLayer({
         id: 'polygons',
         type: 'fill',
         source: 'internal-source',
@@ -93,8 +94,19 @@ export default function MapComponent(
       applySelection()
     })
 
+    mapObj.on('click', (e: MapMouseEvent) => {
+      const { lng, lat } = e.lngLat
+
+      const marker = new Marker()
+        .setLngLat([lng, lat])
+        .addTo(mapObj);
+
+      markers.current.push(marker)
+      console.log('entra aqui', e.lngLat)
+    })
+
     return () => {
-      instance.remove()
+      mapObj.remove()
       map.current = null
     }
   }, [])
@@ -112,12 +124,17 @@ export default function MapComponent(
     applySelection()
   }, [state.selectedSoil])
 
+  useEffect(() => {
+    if (!map.current) return;
+    map.current.resize();
+  }, [map]);
+
   return <div className="h-full relative">
     <div ref={mapContainer} className="h-full" />
     {state.selectedSoil ? (
       <div className="fixed top-0 right-0 bg-white p-4 rounded-bl-sm">
         <span className="font-bold">{state.selectedSoil.desc_uso_solo} </span>
-        — 
+        —
         <span className="text-gray-700"> {state.selectedSoil.area} Km²</span>
       </div>
     ) : <></>}
