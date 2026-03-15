@@ -3,9 +3,11 @@ import type { FeatureCollection } from 'geojson'
 import { Map, MapMouseEvent, Marker, type GeoJSONSource } from 'maplibre-gl'
 import { useEffect, useRef } from 'react'
 import type { SoilUsage } from '../actions/map'
+import { Transaction } from '../actions/products'
 
 export default function MapComponent(
   state: {
+    initialTransactions: Transaction[],
     polygons?: FeatureCollection
     selectedSoil?: SoilUsage | null
     onClick: (mapObj: Map, loc: {lng: number, lat: number}) => void
@@ -90,6 +92,12 @@ export default function MapComponent(
             0.2,
           ]
         }
+      })
+
+      state.initialTransactions.forEach(t => {
+        new Marker()
+          .setLngLat([t.lng, t.lat])
+          .addTo(mapObj)
       })
 
       applySelection()

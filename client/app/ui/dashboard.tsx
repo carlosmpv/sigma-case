@@ -195,6 +195,7 @@ export default function Dashboard(
     </aside>
     <main className="flex-1 h-screen overflow-hidden">
       <MapComponent
+        initialTransactions={state.initialTransactions}
         polygons={state.mapPolygons!}
         selectedSoil={selectedSoil}
         onClick={handleMapClick}
