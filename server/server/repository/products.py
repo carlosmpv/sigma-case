@@ -113,7 +113,7 @@ class ProductRepository:
                 
                 reg_transaction = ProductTransaction(
                     product=target_product,
-                    quantity=quantity,
+                    quantity=-quantity,
                     location=ST_MakePoint(lng, lat)
                 )
 

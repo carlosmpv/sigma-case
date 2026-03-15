@@ -8,7 +8,7 @@ username_already_in_use = HTTPException(
 
 invalid_credentials_exception = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
-    detail="Suas credenciais expiraram",
+    detail="Credenciais inválidas",
     headers={"WWW-Authenticate": "Bearer"}
 )
 

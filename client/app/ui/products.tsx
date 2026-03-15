@@ -1,5 +1,5 @@
 'use client'
-import { ChangeEvent, useActionState, useState } from "react";
+import { ChangeEvent, useActionState, useEffect, useState } from "react";
 import { createProduct, editProduct, Product } from "../actions/products";
 
 
@@ -13,6 +13,7 @@ function ProductsItem(product: Product) {
 
   function handlEditProduct() {
     formAction(productChanges)
+    setEditing(false)
   }
 
   function handleProductClick() {
@@ -86,19 +87,6 @@ function ProductsItem(product: Product) {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Quantidade</label>
-            <input
-              type="number"
-              name="quantity"
-              value={productChanges.quantity}
-              onChange={handleChange}
-              step="0.01"
-              min="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
-              required
-            />
-          </div>
 
           <div className="flex flex-wrap gap-2 pt-2">
             <button
@@ -135,10 +123,13 @@ function ProductsItem(product: Product) {
 
 }
 
-type ProductsState = { products: Product[], error?: string }
 
 export default function Products(
-  initialState: ProductsState
+  initialState: { 
+    products: Product[]
+    error?: string
+    onProductsChange: (products: Product[]) => void
+  }
 ) {
   const [unitOfMeasure, setUnitOfMeasure] = useState('un.')
   const [state, formAction, pending] = useActionState(createProduct, initialState)
@@ -149,9 +140,13 @@ export default function Products(
     setUnitOfMeasure(value);
   }
 
+  useEffect(() => {
+    if (state?.products) {
+      initialState.onProductsChange(state?.products)
+    }
+  }, [state])
 
-
-  return <details open>
+  return <details open={false}>
     <summary className="text-xl cursor-pointer bg-gray-200 p-2">Produtos em estoque</summary>
     <div className="px-4 mt-6">
       <details
@@ -205,23 +200,6 @@ export default function Products(
 
           <div className="p-1 w-full md:w-1/2">
             <label
-              htmlFor="product-quantity"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Quantidade
-            </label>
-            <input
-              className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
-              type="number"
-              id="product-quantity"
-              name="product-quantity"
-              step="0.01"
-              placeholder="0,00"
-            />
-          </div>
-
-          <div className="p-1 w-full">
-            <label
               htmlFor="product-unit"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
@@ -246,11 +224,11 @@ export default function Products(
         </form>
       </details>
 
-      <div>
+      <div className="overflow-scroll max-h-96 mt-4">
         {state?.products?.length === 0 ? (
-          <p className="py-4 text-center">Nenhum produto cadastrado</p>
+          <p className="text-center">Nenhum produto cadastrado</p>
         ) : (
-          <ul className="py-4">
+          <ul className="">
             {state?.products?.map((product: Product) => (
               <li
                 className="border-b border-gray-300 flex"

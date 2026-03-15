@@ -8,6 +8,7 @@ export default function MapComponent(
   state: {
     polygons?: FeatureCollection
     selectedSoil?: SoilUsage | null
+    onClick: (mapObj: Map, loc: {lng: number, lat: number}) => void
   }
 ) {
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -96,13 +97,9 @@ export default function MapComponent(
 
     mapObj.on('click', (e: MapMouseEvent) => {
       const { lng, lat } = e.lngLat
-
-      const marker = new Marker()
-        .setLngLat([lng, lat])
-        .addTo(mapObj);
-
-      markers.current.push(marker)
-      console.log('entra aqui', e.lngLat)
+      state.onClick(mapObj, {lng, lat})
+      // marker.addTo(mapObj)
+      // markers.current.push(marker)
     })
 
     return () => {

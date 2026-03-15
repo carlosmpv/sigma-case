@@ -7,7 +7,7 @@ export default function SoilList(
     onSoilSelect: (soil: SoilUsage) => void
   }
 ) {
-  return <details open>
+  return <details open={true}>
     <summary className="text-xl cursor-pointer bg-gray-200 p-2">Usos do solo</summary>
     <div className="px-4">
       <div>
