@@ -11,7 +11,7 @@ export default function Transactions(
   }
 ) {
   return <details open={false}>
-    <summary className="text-xl cursor-pointer bg-gray-200 p-2">Histórico de transações</summary>
+    <summary className="text-xl cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 px-4 py-2">Histórico de transações</summary>
     <div className="px-4 mt-6">
       <div className="border border-gray-300 rounded-sm p-2">Total: {formataReais(state.total ?? 0)}</div>
       <div className="overflow-scroll max-h-96 mt-4">
@@ -25,7 +25,7 @@ export default function Transactions(
                 key={transaction.when}
               >
                 <div className="p-2 flex-1 min-w-0 space-y-2">
-                  <div className="cursor-pointer bg-white hover:bg-gray-100 p-2 rounded-sm">
+                  <div className="bg-white p-2 rounded-sm">
                     <p className="truncate"><strong>{transaction.updated_product.name || 'Produto sem nome'}</strong></p>
                     <p className="truncate"><strong>Valor:</strong> {formataReais(transaction.updated_product.price_per_quantity)} por {transaction.updated_product.unit_of_measurement || 'un.'}</p>
                     <p className="truncate"><strong>Quantidade:</strong> {transaction.quantity} {transaction.updated_product.unit_of_measurement || 'un.'}</p>

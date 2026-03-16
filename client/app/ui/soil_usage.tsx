@@ -8,7 +8,7 @@ export default function SoilList(
   }
 ) {
   return <details open={true}>
-    <summary className="text-xl cursor-pointer bg-gray-200 p-2">Usos do solo</summary>
+    <summary className="text-xl cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 px-4 py-2">Usos do solo</summary>
     <div className="px-4">
       <div>
         <ul className="py-4">

@@ -34,7 +34,6 @@ function ProductsItem(product: Product) {
     setEditing(false)
   }
 
-  console.log('productState', productState)
 
   return <>
     <div className="p-2 flex-1 min-w-0 space-y-2">
@@ -97,12 +96,13 @@ function ProductsItem(product: Product) {
             >
               Salvar
             </button>
-            <button
+            {/* <button
               type="button"
               className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors cursor-pointer flex-1"
+              onClick={handleDelete}
             >
               Excluir
-            </button>
+            </button> */}
             <button
               type="button"
               className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors cursor-pointer w-full"
@@ -149,14 +149,14 @@ export default function Products(
   }, [state])
 
   return <details open={false}>
-    <summary className="text-xl cursor-pointer bg-gray-200 p-2">Produtos em estoque</summary>
+    <summary className="text-xl cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-900 px-4 py-2">Produtos em estoque</summary>
     <div className="px-4 mt-6">
       <details
         className="border border-gray-300 rounded-sm"
-        open={(state?.products || []).length == 0}
+        open={(state?.products ?? []).length == 0}
       >
         <summary
-          className="list-none cursor-pointer  p-2"
+          className="list-none cursor-pointer p-2 hover:bg-gray-100"
         >
           <span className="mdi mdi-plus"></span> 
           Cadastrar produto

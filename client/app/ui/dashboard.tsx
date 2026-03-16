@@ -188,12 +188,12 @@ export default function Dashboard(
   }
 
   return <div className="flex">
-    <aside className="w-screen lg:w-96 border-r border-gray-300 h-screen overflow-y-scroll">
+    <aside className="relative z-20 w-screen lg:w-96 border-r border-gray-300 h-screen overflow-y-scroll shadow-2xl">
       <Transactions total={cash} transactions={transactions} />
       <Products products={state.products} onProductsChange={setProducts} />
       <SoilList soils={state.soilUsage} onSoilSelect={selectSoil} />
     </aside>
-    <main className="flex-1 h-screen overflow-hidden">
+    <main className="relative z-0 flex-1 h-screen overflow-hidden">
       <MapComponent
         initialTransactions={state.initialTransactions}
         polygons={state.mapPolygons!}
