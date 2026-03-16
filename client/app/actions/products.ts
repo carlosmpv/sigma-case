@@ -28,7 +28,7 @@ export async function getProducts(): Promise<Product[]> {
     }
   })
   const procuts = await response.json() as Product[];
-  return procuts
+  return procuts.reverse() // Reverte para que os novos fiquem no topo
 }
 
 export async function createProduct(prevState: any, payload: FormData) {
@@ -44,13 +44,12 @@ export async function createProduct(prevState: any, payload: FormData) {
       "name": payload.get('product-name')! as string,
       "price_per_quantity": Number(payload.get('product-price')!),
       "quantity": Number(payload.get('product-quantity')!),
-      "unit_of_measure": payload.get('product-unit')! as string,
+      "unit_of_measurement": payload.get('product-unit')! as string,
     })
   })
 
   if (!response.ok) {
     const { detail } = await response.json()
-    console.log('detail', detail)
     return {
       ...prevState,
       error: detail || "Erro ao criar produto"
@@ -59,7 +58,7 @@ export async function createProduct(prevState: any, payload: FormData) {
 
   const newProduct = await response.json() as Product
   return {
-    products: [...(prevState?.products as Product[]), newProduct],
+    products: [newProduct, ...(prevState?.products as Product[])],
     error: '',
   }
 }

@@ -10,7 +10,6 @@ export default function Transactions(
     total: number
   }
 ) {
-  console.log(state.transactions)
   return <details open={false}>
     <summary className="text-xl cursor-pointer bg-gray-200 p-2">Histórico de transações</summary>
     <div className="px-4 mt-6">

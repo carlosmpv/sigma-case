@@ -23,13 +23,13 @@ async def test_products_repository(engine):
 
     test_product_name = f"TestProduct_{before_insert_len}"
     price_per_quantity = random() * 100
-    unit_of_measure = 'km'
+    unit_of_measurement = 'km'
 
     new_product = await product_repository.create(
         payload=ProductCreatePayload(
             name=test_product_name,
             price_per_quantity=price_per_quantity,
-            unit_of_measure=unit_of_measure,
+            unit_of_measurement=unit_of_measurement,
         )
     )
 
@@ -40,22 +40,22 @@ async def test_products_repository(engine):
     assert recovered_product is not None
     assert recovered_product.name == test_product_name
     assert recovered_product.price_per_quantity == price_per_quantity
-    assert recovered_product.unit_of_measure == unit_of_measure
+    assert recovered_product.unit_of_measurement == unit_of_measurement
 
     new_price_per_quantity = random() * 100
-    new_unit_of_measure = 'L'
+    new_unit_of_measurement = 'L'
     await product_repository.update_by_id(
         new_product.uuid, 
         update_payload=ProductUpdatePayload(
             price_per_quantity=new_price_per_quantity,
-            unit_of_measure=new_unit_of_measure
+            unit_of_measurement=new_unit_of_measurement
         )
     )
 
     recovered_product = await product_repository.by_id(new_product.uuid)
     assert recovered_product is not None
     assert recovered_product.price_per_quantity == new_price_per_quantity
-    assert recovered_product.unit_of_measure == new_unit_of_measure
+    assert recovered_product.unit_of_measurement == new_unit_of_measurement
 
     await product_repository.delete_by_id(new_product.uuid)
     products = await product_repository.list()
@@ -69,7 +69,7 @@ async def test_products_transaction(engine):
         payload=ProductCreatePayload(
             name=f"TestProduct_A_{random()}",
             price_per_quantity=random() * 100,
-            unit_of_measure='Kg',
+            unit_of_measurement='Kg',
         )
     )
 
@@ -78,7 +78,7 @@ async def test_products_transaction(engine):
         payload=ProductCreatePayload(
             name=f"TestProduct_B_{random()}",
             price_per_quantity=random() * 100,
-            unit_of_measure='Kg',
+            unit_of_measurement='Kg',
         )
     )
 
@@ -86,7 +86,7 @@ async def test_products_transaction(engine):
         payload=ProductCreatePayload(
             name=f"TestProduct_C_{random()}",
             price_per_quantity=random() * 100,
-            unit_of_measure='Kg',
+            unit_of_measurement='Kg',
         )
     )
 

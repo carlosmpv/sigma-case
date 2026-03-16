@@ -39,7 +39,7 @@ class Product(Base):
         nullable=False
     )
 
-    unit_of_measure: Mapped[str] = mapped_column(
+    unit_of_measurement: Mapped[str] = mapped_column(
         String(),
         default='un',
         server_default=text("'un'"),
@@ -79,7 +79,7 @@ class ProductResponse(BaseModel):
     name: str
     price_per_quantity: float
     quantity: float
-    unit_of_measure: str
+    unit_of_measurement: str
 
     class Config:
         from_attributes = True
@@ -87,12 +87,12 @@ class ProductResponse(BaseModel):
 class ProductUpdatePayload(BaseModel):
     name: Optional[str] = None
     price_per_quantity: Optional[float] = None
-    unit_of_measure: Optional[str] = None
+    unit_of_measurement: Optional[str] = None
 
 class ProductCreatePayload(BaseModel):
     name: str
     price_per_quantity: float
-    unit_of_measure: str
+    unit_of_measurement: str
 
 class RegProductTransactionResponse(BaseModel):
     updated_product: ProductResponse

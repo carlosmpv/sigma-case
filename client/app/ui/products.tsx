@@ -34,6 +34,8 @@ function ProductsItem(product: Product) {
     setEditing(false)
   }
 
+  console.log('productState', productState)
+
   return <>
     <div className="p-2 flex-1 min-w-0 space-y-2">
       {isEditing ? (
@@ -113,8 +115,8 @@ function ProductsItem(product: Product) {
       ) : (
         <div className="cursor-pointer bg-white hover:bg-gray-100 p-2 rounded-sm" onClick={handleProductClick}>
           <p className="truncate"><strong>{productState.name || 'Produto sem nome'}</strong></p>
-          <p className="truncate"><strong>Preço:</strong> {formataReais(productState.price_per_quantity)} <em>por</em> {productState.unit_of_measurement || 'un.'}</p>
-          <p className="truncate"><strong>Quantidade:</strong> {productState.quantity} {productState.unit_of_measurement || 'un.'}</p>
+          <p className="truncate"><strong>Preço:</strong> {formataReais(productState.price_per_quantity)} por {productState.unit_of_measurement ?? 'un.'}</p>
+          <p className="truncate"><strong>Quantidade:</strong> {productState.quantity} {productState.unit_of_measurement ?? 'un.'}</p>
           <p className="truncate"><strong>Total:</strong> {formataReais(productState.price_per_quantity * productState.quantity)}</p>
         </div>
       )}
@@ -199,21 +201,28 @@ export default function Products(
           </div>
 
           <div className="p-1 w-full md:w-1/2">
-            <label
-              htmlFor="product-unit"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Unidade de medida
-            </label>
-            <input
-              className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
-              type="text"
-              id="product-unit"
-              name="product-unit"
-              value={unitOfMeasure}
-              onChange={handleUnitChange}
-            />
-          </div>
+              <label 
+                htmlFor="product-unit"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Unidade
+              </label>
+              <select
+                id="product-unit"
+                name="product-unit"
+                value={unitOfMeasure}
+                onChange={handleUnitChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-sm text-gray-700"
+              >
+                <option value="un">Unidade (un)</option>
+                <option value="kg">Quilograma (kg)</option>
+                <option value="g">Grama (g)</option>
+                <option value="l">Litro (l)</option>
+                <option value="ml">Mililitro (ml)</option>
+                <option value="cx">Caixa (cx)</option>
+                <option value="pct">Pacote (pct)</option>
+              </select>
+            </div>
 
           <button
             className="bg-gray-100 p-2 m-1 w-full cursor-pointer hover:bg-gray-200"

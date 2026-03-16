@@ -15,6 +15,9 @@ async def authenticate(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     user_repository: Annotated[UserRepository, Depends(get_user_repository)]
 ):
+    """
+    Obtem o access token que deve ser utilizado nos cabeçalhos como `Authorization: Bearer <token>`
+    """
     user = await user_repository.find_by_username_and_password(
         form_data.username,
         form_data.password
@@ -34,6 +37,9 @@ async def register(
     user_repository: Annotated[UserRepository, Depends(get_user_repository)],
     new_user_request: NewUserRequest,
 ):
+    """
+    Realiza o cadastro do usuário com base em username e password
+    """
     await user_repository.create_user(CreateUserPayload(
         username=new_user_request.username, 
         password=new_user_request.password,

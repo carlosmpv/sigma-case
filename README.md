@@ -52,3 +52,7 @@ Não foi configurado o depurador para o nextjs no momento, porém para executar 
 ## Documentação da API
 
 Toda a API será documentada e pode ser testada em `http://localhost:8000/docs`, acesível ao executar o sistema com `docker compose up`
+
+## Postman collecion
+
+A coleção no formato Postman esta localizada em ./Sigma_Case.postman_collection.json
