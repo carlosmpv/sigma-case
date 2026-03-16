@@ -14,7 +14,7 @@ const fontMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sigma case",
+  title: "Localise",
   description: "Um projetinho avaliativo para a candidatura na Sigma.",
 };
 

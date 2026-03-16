@@ -11,14 +11,13 @@ export default function Home() {
       <div className="mx-auto w-screen max-w-7xl px-4 py-16 sm:px-6 sm:py-24 md:grid md:grid-cols-2 md:items-center md:gap-4 lg:px-8 lg:py-32">
         <div className="max-w-prose text-left">
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-            Understand user flow and
-            <strong className="text-indigo-600"> increase </strong>
-            conversions
+            Rastreie suas vendas e
+            <strong className="text-indigo-600"> localise </strong>
+            mercados promissores
           </h1>
 
           <p className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, nisi. Natus, provident
-            accusamus impedit minima harum corporis iusto.
+            Acompanhe seu fluxo de caixa e veja, em tempo real, onde estão seus clientes e fornecedores.
           </p>
 
           <div className="mt-4 flex gap-4 sm:mt-6">
@@ -48,6 +47,66 @@ export default function Home() {
         </svg>
       </div>
     </section>
+    <section className="py-20 px-4 bg-indigo-600 text-white">
+      <div className="max-w-7xl mx-auto grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <span className="inline-block rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-indigo-100">
+            Gestão financeira e territorial
+          </span>
+
+          <h1 className="mt-6 text-4xl font-bold leading-tight sm:text-5xl">
+            Controle seu fluxo de caixa com mais clareza, agilidade e visão no mapa
+          </h1>
+
+          <p className="mt-6 max-w-2xl text-base text-indigo-100 sm:text-lg/relaxed">
+            Gerencie produtos cadastrados, acompanhe o histórico de compras e vendas
+            e visualize regiões destacadas por uso do solo em uma única plataforma.
+            Com poucos cliques, você registra movimentações diretamente no mapa e
+            mantém o caixa sempre atualizado automaticamente.
+          </p>
+
+          <p className="mt-4 max-w-2xl text-base text-indigo-100 sm:text-lg/relaxed">
+            Tenha uma visão completa da operação, identifique oportunidades por
+            região e tome decisões com mais segurança usando dados financeiros e
+            geográficos no mesmo ambiente.
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
+            <h3 className="text-lg font-semibold">Produtos centralizados</h3>
+            <p className="mt-3 text-sm leading-6 text-indigo-100">
+              Organize e gerencie todos os produtos cadastrados em um menu lateral
+              simples e acessível.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
+            <h3 className="text-lg font-semibold">Histórico completo</h3>
+            <p className="mt-3 text-sm leading-6 text-indigo-100">
+              Consulte rapidamente compras e vendas já registradas para acompanhar a
+              evolução do negócio.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
+            <h3 className="text-lg font-semibold">Regiões no mapa</h3>
+            <p className="mt-3 text-sm leading-6 text-indigo-100">
+              Clique nas regiões para destacar áreas por uso do solo e entender
+              melhor onde estão suas oportunidades.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
+            <h3 className="text-lg font-semibold">Caixa atualizado automaticamente</h3>
+            <p className="mt-3 text-sm leading-6 text-indigo-100">
+              Registre uma compra ou venda no mapa e veja o fluxo de caixa ser
+              atualizado em tempo real.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
     <section className="min-h-screen py-16 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12">
@@ -56,8 +115,102 @@ export default function Home() {
         </div>
       </div>
     </section>
-    <footer>
-      {/* Legal information */}
+    <footer className="bg-gray-950 text-white">
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <h3 className="text-xl font-bold text-white">Localise</h3>
+            <p className="mt-4 text-sm leading-6 text-gray-400">
+              Controle de fluxo de caixa, histórico de compras e vendas e
+              visualização territorial em uma única plataforma. <br />
+
+              <strong>Todos os links aqui são artificiais!</strong>
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-300">
+              Plataforma
+            </h4>
+            <ul className="mt-4 space-y-3 text-sm text-gray-400">
+              <li>
+                <a href="#recursos" className="transition hover:text-white">
+                  Recursos
+                </a>
+              </li>
+              <li>
+                <a href="#como-funciona" className="transition hover:text-white">
+                  Como funciona
+                </a>
+              </li>
+              <li>
+                <a href="#mapa" className="transition hover:text-white">
+                  Mapa interativo
+                </a>
+              </li>
+              <li>
+                <a href="#fluxo-caixa" className="transition hover:text-white">
+                  Fluxo de caixa
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-300">
+              Empresa
+            </h4>
+            <ul className="mt-4 space-y-3 text-sm text-gray-400">
+              <li>
+                <a href="#sobre" className="transition hover:text-white">
+                  Sobre
+                </a>
+              </li>
+              <li>
+                <a href="#contato" className="transition hover:text-white">
+                  Contato
+                </a>
+              </li>
+              <li>
+                <a href="#privacidade" className="transition hover:text-white">
+                  Privacidade
+                </a>
+              </li>
+              <li>
+                <a href="#termos" className="transition hover:text-white">
+                  Termos de uso
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-300">
+              Fale conosco
+            </h4>
+            <ul className="mt-4 space-y-3 text-sm text-gray-400">
+              <li>email@ficticio.com</li>
+              <li>+55 (11) 99999-9999</li>
+              <li>Segunda a sexta, 9h às 18h</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-12 border-t border-white/10 pt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-gray-500">
+            © {new Date().getFullYear()} SeuSoftware. Todos os direitos reservados.
+          </p>
+
+          <div className="flex items-center gap-6 text-sm text-gray-400">
+            <a href="#privacidade" className="transition hover:text-white">
+              Política de Privacidade
+            </a>
+            <a href="#termos" className="transition hover:text-white">
+              Termos de Uso
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
   </main>;
 }
